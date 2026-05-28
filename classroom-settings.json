@@ -1,0 +1,137 @@
+{
+  "rows": 4,
+  "cols": 6,
+  "students": [
+    {
+      "id": "4ceeff0c-512d-473f-ab6d-d0be0c851c34",
+      "name": "이혜련",
+      "preference": "back"
+    },
+    {
+      "id": "51d04f30-1185-4e46-8405-299c2d17349a",
+      "name": "장호남",
+      "preference": "front"
+    },
+    {
+      "id": "9a199674-671e-4121-bff1-2c7167944546",
+      "name": "민경아",
+      "preference": "normal"
+    },
+    {
+      "id": "1e271772-8a50-439f-9797-05ee91571e88",
+      "name": "이하연",
+      "preference": "normal"
+    },
+    {
+      "id": "9abd380b-6b68-44e2-a638-77634eba6f7b",
+      "name": "이슬",
+      "preference": "normal"
+    },
+    {
+      "id": "3cc1117a-8ec6-4a99-bdc2-dfa53abb451d",
+      "name": "조숙희",
+      "preference": "normal"
+    },
+    {
+      "id": "67c6ca49-b864-424c-9e7e-f4b079e52dc3",
+      "name": "윤현아",
+      "preference": "normal"
+    },
+    {
+      "id": "2bbc5d23-c903-4c52-a612-244ee6b9fd59",
+      "name": "임경현",
+      "preference": "back"
+    },
+    {
+      "id": "f628c604-1177-412d-a4a6-360e94c77ea5",
+      "name": "신선미",
+      "preference": "normal"
+    },
+    {
+      "id": "00a7eac0-b910-4fd1-85ee-0c39d5ec271f",
+      "name": "남정주",
+      "preference": "front"
+    },
+    {
+      "id": "8c48502a-f1fc-4247-8fc2-6c7c3fbc1d7b",
+      "name": "양주란",
+      "preference": "normal"
+    },
+    {
+      "id": "4ae40b9c-922f-4b7a-a20f-8b90ac2a53fa",
+      "name": "윤지성",
+      "preference": "back"
+    },
+    {
+      "id": "48f048fa-9dce-40b4-9bb2-c80dcc9b4a90",
+      "name": "박문수",
+      "preference": "normal"
+    },
+    {
+      "id": "22cfea79-7d6b-4414-a0c5-e78449934bc3",
+      "name": "박수연",
+      "preference": "front"
+    },
+    {
+      "id": "c0d977b8-4581-47b7-adb5-1422c5496c2e",
+      "name": "민지원",
+      "preference": "normal"
+    },
+    {
+      "id": "06de3c5f-1982-41ee-859c-4d94e291e83d",
+      "name": "이호창",
+      "preference": "normal"
+    },
+    {
+      "id": "ade1d180-634e-4070-b8b2-d116182b1308",
+      "name": "이현아",
+      "preference": "normal"
+    },
+    {
+      "id": "2ae38ed0-4642-404c-9021-90132d4e49be",
+      "name": "박세현",
+      "preference": "normal"
+    },
+    {
+      "id": "1f1f3440-cfe0-4c66-bf69-48f474339e3d",
+      "name": "오민주",
+      "preference": "front"
+    },
+    {
+      "id": "80f72230-8dbe-4e2b-b684-4d5d5afb465d",
+      "name": "박진현",
+      "preference": "normal"
+    },
+    {
+      "id": "646d7f2e-edc8-419f-abd9-cb3bbe17ecf7",
+      "name": "이주현",
+      "preference": "back"
+    },
+    {
+      "id": "84a985c9-0d0b-432a-b048-7ca0b8df20bd",
+      "name": "김자경",
+      "preference": "front"
+    },
+    {
+      "id": "712ddfc0-bd78-4b73-b9d8-d07e9018efb7",
+      "name": "오세원",
+      "preference": "normal"
+    },
+    {
+      "id": "44c51acd-c7ad-4b67-8bb3-a1892e3f2543",
+      "name": "박수진",
+      "preference": "front"
+    }
+  ],
+  "fixedSeats": [],
+  "avoidPairs": [],
+  "frontAssigned": [],
+  "backAssigned": [],
+  "areaMode": "auto",
+  "customArea": {
+    "frontStart": "1",
+    "frontEnd": "1",
+    "backStart": "4",
+    "backEnd": "4"
+  }
+}
