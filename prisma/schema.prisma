@@ -1,0 +1,170 @@
+// Prisma schema for the student assessment (수행평가 확인) service
+// docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  STUDENT
+  PARENT
+  TEACHER
+}
+
+enum SubmissionStatus {
+  NOT_SUBMITTED
+  SUBMITTED
+  RESUBMITTED
+}
+
+enum NotificationType {
+  RESULT_PUBLISHED
+  DUE_SOON
+  NOT_SUBMITTED
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  role         Role
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Teacher: classes they own
+  taughtClasses Class[] @relation("TeacherClasses")
+
+  // Student: class memberships, submissions
+  enrollments   Enrollment[]
+  submissions   Submission[]
+
+  // Parent <-> Student mapping (a user can be a parent of many students,
+  // and a student can have many parents/guardians)
+  childLinks  ParentChild[] @relation("ParentLinks")
+  parentLinks ParentChild[] @relation("ChildLinks")
+
+  notificationLogs NotificationLog[]
+
+  @@index([role])
+}
+
+// Explicit mapping table between a PARENT user and a STUDENT user
+model ParentChild {
+  id        String   @id @default(cuid())
+  parentId  String
+  studentId String
+  createdAt DateTime @default(now())
+
+  parent  User @relation("ParentLinks", fields: [parentId], references: [id], onDelete: Cascade)
+  student User @relation("ChildLinks", fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@unique([parentId, studentId])
+  @@index([studentId])
+}
+
+// 학급/교과 - a class taught by one teacher, for one subject
+model Class {
+  id        String   @id @default(cuid())
+  name      String
+  subject   String
+  teacherId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  teacher     User         @relation("TeacherClasses", fields: [teacherId], references: [id], onDelete: Cascade)
+  enrollments Enrollment[]
+  assessments Assessment[]
+
+  @@index([teacherId])
+}
+
+// Student membership in a class
+model Enrollment {
+  id        String   @id @default(cuid())
+  classId   String
+  studentId String
+  createdAt DateTime @default(now())
+
+  class   Class @relation(fields: [classId], references: [id], onDelete: Cascade)
+  student User  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@unique([classId, studentId])
+  @@index([studentId])
+}
+
+// 수행평가 항목
+model Assessment {
+  id          String   @id @default(cuid())
+  title       String
+  subject     String
+  classId     String
+  dueDate     DateTime
+  semester    String
+  rubric      String
+  isPublished Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  class       Class        @relation(fields: [classId], references: [id], onDelete: Cascade)
+  submissions Submission[]
+
+  notificationLogs NotificationLog[]
+
+  @@index([classId])
+}
+
+// 제출물
+model Submission {
+  id           String           @id @default(cuid())
+  assessmentId String
+  studentId    String
+  status       SubmissionStatus @default(NOT_SUBMITTED)
+  submittedAt  DateTime?
+  content      String?
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+
+  assessment Assessment @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+  student    User       @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  score      Score?
+
+  @@unique([assessmentId, studentId])
+  @@index([studentId])
+}
+
+// 채점 결과
+model Score {
+  id           String    @id @default(cuid())
+  submissionId String    @unique
+  score        Float
+  feedback     String?
+  isPublished  Boolean   @default(false)
+  gradedAt     DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  submission Submission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+
+  @@index([isPublished])
+}
+
+// Dedupe log so a repeat publish/reminder sweep never sends the same email twice
+model NotificationLog {
+  id           String           @id @default(cuid())
+  type         NotificationType
+  userId       String
+  assessmentId String
+  sentAt       DateTime         @default(now())
+
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  assessment Assessment @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+
+  @@unique([type, userId, assessmentId])
+  @@index([assessmentId])
+}
